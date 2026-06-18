@@ -1,0 +1,6 @@
+.env
+instance/*.db
+static/img/uploads/*
+!static/img/uploads/.gitkeep
+__pycache__/
+*.pyc
