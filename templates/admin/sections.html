@@ -1,0 +1,14 @@
+{% extends "admin/base_admin.html" %}
+{% set active='sections' %}
+{% block content %}
+<h1>Apartados de la web</h1>
+<p class="muted">Muestra u oculta cada apartado y cambia su orden en el menú.</p>
+<form method="post" class="panel"><table>
+<tr><th>Apartado</th><th>Visible</th><th>Orden</th></tr>
+{% for s in secs %}
+<tr><td>{{ s.label }}</td>
+  <td><input type="checkbox" name="vis_{{ s.slug }}" {{ 'checked' if s.visible }} style="width:auto"></td>
+  <td><input type="number" name="ord_{{ s.slug }}" value="{{ s.order }}" style="width:80px"></td></tr>
+{% endfor %}
+</table><button class="btn primary" style="margin-top:16px">Guardar</button></form>
+{% endblock %}

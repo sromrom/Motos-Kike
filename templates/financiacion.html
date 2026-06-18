@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+{% block title %}Calculadora de financiación de motos · {{ S.shop_name }}{% endblock %}
+{% block content %}
+<section class="section">
+  <div class="container">
+    <div class="section-head reveal"><span class="eyebrow">Simulador</span><h2>Calcula tu financiación</h2>
+      <p class="lead">Simulación orientativa por cuota constante. La oferta final depende del estudio de la financiera.</p></div>
+    <div class="grid g2 reveal" style="gap:24px">
+      <div class="panel">
+        <div class="field"><label>Importe de la moto (€)</label><input id="amount" type="number" value="5000" oninput="calcFin()"></div>
+        <div class="field"><label>Entrada (€)</label><input id="down" type="number" value="500" oninput="calcFin()"></div>
+        <div class="field"><label>Plazo: <span id="monthsVal" class="range-val">36</span> meses</label>
+          <input id="months" type="range" min="6" max="{{ S.fin_max_months }}" step="6" value="36" oninput="calcFin()"></div>
+        <div class="field"><label>TIN (%)</label><input id="tin" type="number" step="0.01" value="{{ S.fin_tin }}" oninput="calcFin()"></div>
+      </div>
+      <div class="panel">
+        <h3>Resultado estimado</h3>
+        <div class="fin-result">
+          <div class="fin-box"><span class="k">Cuota/mes</span><b id="rCuota">–</b></div>
+          <div class="fin-box"><span class="k">Total</span><b id="rTotal">–</b></div>
+          <div class="fin-box"><span class="k">Intereses</span><b id="rInt">–</b></div>
+        </div>
+        <p class="muted" style="margin-top:18px;font-size:.85rem">* Cálculo orientativo sin comisiones ni seguros. No constituye oferta vinculante.</p>
+        <a class="btn primary wide" href="/contacto" style="margin-top:10px">Solicitar financiación</a>
+      </div>
+    </div>
+  </div>
+</section>
+{% endblock %}
+{% block scripts %}<script>calcFin();</script>{% endblock %}

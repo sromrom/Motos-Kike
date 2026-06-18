@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+{% block title %}Motos de ocasión en Chiclana y Cádiz · {{ S.shop_name }}{% endblock %}
+{% block desc %}Motos de segunda mano revisadas en Chiclana de la Frontera. Consulta fotos, precio y características.{% endblock %}
+{% block content %}
+<section class="section">
+  <div class="container">
+    <div class="section-head reveal"><span class="eyebrow">Segunda mano</span><h2>Motos de ocasión</h2>
+      <p class="lead">Todas nuestras motos pasan revisión en taller. Contacta para verla o reservarla.</p></div>
+    <div class="grid g3 reveal">
+      {% for u in bikes %}
+      <a class="card" href="/ocasion/{{ u.id }}">
+        {% if u.image_list() %}<div class="thumb-wrap"><img class="thumb" src="{{ u.image_list()[0] }}" alt="{{ u.title }}"></div>{% endif %}
+        <div class="body">
+          {% if u.sold %}<span class="tag sold">Vendida</span>{% endif %}
+          <h3>{{ u.title }}</h3>
+          <div class="specs">{% if u.year %}<span>{{ u.year }}</span>{% endif %}{% if u.km %}<span>{{ u.km }} km</span>{% endif %}{% if u.cc %}<span>{{ u.cc }}</span>{% endif %}</div>
+          {% if u.price %}<div class="price">{{ u.price }}</div>{% endif %}
+        </div>
+      </a>
+      {% endfor %}
+      {% if not bikes %}<p class="muted">Ahora mismo no hay motos de ocasión publicadas.</p>{% endif %}
+    </div>
+  </div>
+</section>
+{% endblock %}

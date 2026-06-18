@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+{% block title %}Pide tu cita en el taller · {{ S.shop_name }}{% endblock %}
+{% block content %}
+<section class="section">
+  <div class="container" style="max-width:860px">
+    <div class="section-head reveal"><span class="eyebrow">Reserva online</span><h2>Pide tu cita</h2>
+      <p class="lead">Mantenimiento o revisión: elige día y hora (franjas cada 30 min). Para otros asuntos, solicita una <b>cita de consulta</b> y la concretamos contigo.</p></div>
+
+    <form method="post" class="panel reveal">
+      <div class="field">
+        <label>Tipo de cita</label>
+        <select name="kind" id="kind" onchange="toggleKind()">
+          <option value="mantenimiento">Mantenimiento / revisión rutinaria</option>
+          <option value="consulta">Consulta / otros asuntos (cita presencial)</option>
+        </select>
+      </div>
+
+      <div id="maint-fields">
+        <label>Elige día</label>
+        <div id="calRoot" style="margin-bottom:18px"></div>
+        <div id="slotBox"><div class="day-empty">Selecciona un día en el calendario.</div></div>
+        <input type="hidden" name="date" id="f_date">
+        <input type="hidden" name="time" id="f_time">
+        <p style="font-family:var(--mono);font-size:.85rem;color:var(--ink-2);margin:14px 0 4px">
+          Seleccionado: <span class="accent" id="selSlot">—</span></p>
+      </div>
+
+      <div class="rule" style="margin:18px 0"></div>
+      <div class="field"><label>Nombre *</label><input name="name" required></div>
+      <div class="row2">
+        <div class="field"><label>Teléfono</label><input name="phone"></div>
+        <div class="field"><label>Email</label><input name="email" type="email"></div>
+      </div>
+      <div class="field"><label>Asunto</label><input name="subject" placeholder="Ej: cambio de aceite, ruido en el motor…"></div>
+      <div class="field"><label>Notas</label><textarea name="notes"></textarea></div>
+      <p class="muted" style="font-size:.82rem">Tus datos se guardan cifrados (AES-256) y se eliminan automáticamente poco después de tu cita. Al enviar aceptas la <a href="/privacidad">política de privacidad</a>.</p>
+      <button class="btn primary wide" type="submit">Solicitar cita ▸</button>
+    </form>
+  </div>
+</section>
+{% endblock %}
+{% block scripts %}<script>toggleKind();</script>{% endblock %}

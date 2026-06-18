@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+{% block title %}{{ bike.title }} · {{ S.shop_name }}{% endblock %}
+{% block desc %}{{ bike.title }} de ocasión. {{ bike.year }} · {{ bike.km }} km · {{ bike.price }}.{% endblock %}
+{% block content %}
+<section class="section">
+  <div class="container grid g2" style="gap:44px;align-items:start">
+    <div class="reveal">
+      {% if bike.image_list() %}
+      <div class="thumb-wrap" style="aspect-ratio:4/3;border-radius:var(--r-lg);border:1px solid var(--line)">
+        <img class="thumb" src="{{ bike.image_list()[0] }}" alt="{{ bike.title }}"></div>
+      <div class="gallery" style="margin-top:12px">
+        {% for img in bike.image_list()[1:] %}<a href="#"><img src="{{ img }}" alt="{{ bike.title }}"></a>{% endfor %}
+      </div>
+      {% endif %}
+    </div>
+    <div class="reveal">
+      {% if bike.sold %}<span class="tag sold">Vendida</span>{% endif %}
+      <h1 style="font-size:clamp(2rem,4vw,3rem)">{{ bike.title }}</h1>
+      <div class="specs" style="font-size:.9rem">
+        {% if bike.brand %}<span>{{ bike.brand }}</span>{% endif %}{% if bike.year %}<span>{{ bike.year }}</span>{% endif %}
+        {% if bike.km %}<span>{{ bike.km }} km</span>{% endif %}{% if bike.cc %}<span>{{ bike.cc }}</span>{% endif %}
+      </div>
+      {% if bike.price %}<div class="price" style="font-size:2.4rem;margin:16px 0">{{ bike.price }}</div>{% endif %}
+      <p class="muted">{{ bike.description }}</p>
+      <div class="panel" style="margin-top:22px">
+        <h3>¿Te interesa?</h3>
+        <p class="muted">Contáctanos para verla o reservarla.</p>
+        <div class="actions">
+          <a class="btn primary" href="https://wa.me/34{{ S.whatsapp }}?text=Hola, me interesa la moto: {{ bike.title }}" target="_blank">WhatsApp</a>
+          <a class="btn ghost" href="tel:{{ S.phone }}">Llamar</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+{% endblock %}

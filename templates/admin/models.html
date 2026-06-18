@@ -1,0 +1,43 @@
+{% extends "admin/base_admin.html" %}
+{% set active='models' %}
+{% block content %}
+<h1>Modelos disponibles</h1>
+<div class="grid g2">
+  <div class="panel">
+    <h3>Añadir / editar</h3>
+    <form method="post">
+      <input type="hidden" name="id" id="m_id">
+      <div class="row2">
+        <div class="field"><label>Marca</label><input name="brand" id="m_brand" list="brandlist" placeholder="Debe coincidir con una marca">
+          <datalist id="brandlist">{% for b in brands %}<option value="{{ b.name }}">{% endfor %}</datalist>
+          <span class="muted" style="font-size:.78rem">El modelo aparecerá dentro de esta marca. Usa el nombre exacto de la marca.</span></div>
+        <div class="field"><label>Cilindrada</label><input name="cc" id="m_cc" placeholder="125cc"></div>
+      </div>
+      <div class="field"><label>Nombre *</label><input name="name" id="m_name" required></div>
+      <div class="field"><label>Precio (texto)</label><input name="price" id="m_price" placeholder="desde 3.200 €"></div>
+      <div class="field"><label>Descripción</label><textarea name="description" id="m_desc"></textarea></div>
+      <div class="field"><label>Imagen (URL)</label><input name="image_url" id="m_img">
+        <input type="file" accept="image/*" onchange="uploadImg(this,'m_img')" style="margin-top:6px"></div>
+      <div class="field"><label>Ficha oficial (URL web de la marca)</label><input name="official_url" id="m_official" placeholder="https://www.yamaha-motor.eu/...">
+        <span class="muted" style="font-size:.78rem">Se abrirá en pestaña nueva desde el botón "Ficha oficial".</span></div>
+      <div class="row2">
+        <div class="field"><label>Orden</label><input name="order" id="m_order" type="number" value="0"></div>
+        <div class="field"><label>Visible</label><br><input type="checkbox" name="visible" id="m_vis" checked style="width:auto"></div>
+      </div>
+      <button class="btn primary wide">Guardar</button>
+    </form>
+  </div>
+  <div class="panel"><h3>Listado</h3>
+    <table><tr><th>Modelo</th><th>Precio</th><th></th></tr>
+    {% for m in models %}
+    <tr><td>{{ m.brand }} {{ m.name }}</td><td>{{ m.price }}</td><td>
+      <button class="btn sm ghost" onclick='editM({{m.id}},{{m.brand|tojson}},{{m.cc|tojson}},{{m.name|tojson}},{{m.price|tojson}},{{m.description|tojson}},{{m.image_url|tojson}},{{m.official_url|tojson}},{{m.order}},{{m.visible|tojson}})'>Editar</button>
+      <form method="post" action="{{ url_for('admin_model_delete', mid=m.id) }}" style="display:inline" onsubmit="return confirm('¿Eliminar?')"><button class="btn sm danger">X</button></form>
+    </td></tr>
+    {% endfor %}</table>
+  </div>
+</div>
+<script>
+function editM(id,b,cc,n,p,d,img,off,o,v){m_id.value=id;m_brand.value=b;m_cc.value=cc;m_name.value=n;m_price.value=p;m_desc.value=d;m_img.value=img;m_official.value=off;m_order.value=o;m_vis.checked=v;window.scrollTo(0,0);}
+</script>
+{% endblock %}

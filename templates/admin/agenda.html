@@ -1,0 +1,32 @@
+{% extends "admin/base_admin.html" %}
+{% set active='agenda' %}
+{% block content %}
+<h1>Agenda de citas</h1>
+<p class="muted no-print">Pincha un día del calendario para ver y gestionar sus franjas. Verde = alta disponibilidad, amarillo = media, rojo = sin huecos, punto morado = con bloqueos.</p>
+
+<div class="grid g2" style="gap:24px;align-items:start;grid-template-columns:380px 1fr">
+  <div class="no-print"><div id="calAdmin"></div></div>
+  <div><div id="dayPanel" class="panel"><div class="day-empty">Selecciona un día en el calendario.</div></div></div>
+</div>
+
+<div class="panel no-print" style="margin-top:24px">
+  <h3>Horario de citas por día</h3>
+  <p class="muted">Define hasta dos tramos por día (mañana y tarde). Marca "Cerrado" para los días sin citas. Las franjas se generan cada 30 min.</p>
+  <form method="post" action="{{ url_for('admin_schedule') }}">
+    <table>
+      <tr><th>Día</th><th>Cerrado</th><th>Tramo 1</th><th>Tramo 2</th></tr>
+      {% for r in sched_rows %}
+      <tr>
+        <td style="font-weight:600">{{ r.name }}</td>
+        <td><input type="checkbox" name="closed_{{ r.wd }}" {{ 'checked' if r.closed }}></td>
+        <td><input type="time" name="d{{ r.wd }}_1_start" value="{{ r.t1s }}" style="width:120px;display:inline-block"> –
+            <input type="time" name="d{{ r.wd }}_1_end" value="{{ r.t1e }}" style="width:120px;display:inline-block"></td>
+        <td><input type="time" name="d{{ r.wd }}_2_start" value="{{ r.t2s }}" style="width:120px;display:inline-block"> –
+            <input type="time" name="d{{ r.wd }}_2_end" value="{{ r.t2e }}" style="width:120px;display:inline-block"></td>
+      </tr>
+      {% endfor %}
+    </table>
+    <button class="btn primary" style="margin-top:16px">Guardar horario</button>
+  </form>
+</div>
+{% endblock %}

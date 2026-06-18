@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+{% block title %}Privacidad · {{ S.shop_name }}{% endblock %}
+{% block content %}
+<section class="section"><div class="container" style="max-width:760px">
+  <h2>Política de privacidad</h2>
+  <p class="muted">Los datos que facilitas al pedir una cita (nombre y datos de contacto) se utilizan únicamente para gestionar dicha cita.</p>
+  <p class="muted"><b>Seguridad:</b> los datos personales se almacenan cifrados mediante AES-256.</p>
+  <p class="muted"><b>Conservación:</b> tus datos de contacto se conservan únicamente el día de la cita y el día siguiente. A partir de ahí se eliminan automáticamente, manteniéndose solo un registro anónimo de la cita (sin datos personales). Cuando la cita se marca como completada, se elimina por completo todo el registro.</p>
+  <p class="muted"><b>Responsable:</b> {{ S.shop_name }}, {{ S.address }}. Teléfono {{ S.phone }}{% if S.email %}, email {{ S.email }}{% endif %}.</p>
+  <p class="muted">Puedes ejercer tus derechos de acceso, rectificación y supresión contactando con nosotros.</p>
+</div></section>
+{% endblock %}

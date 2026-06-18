@@ -1,0 +1,73 @@
+{% extends "admin/base_admin.html" %}
+{% set active='settings' %}
+{% block content %}
+<h1>Ajustes generales</h1>
+<p class="muted">Todo lo que se muestra en la web (contacto, redes, textos, SEO, horarios, financiación) se edita aquí.</p>
+<form method="post">
+  <div class="grid g2">
+    <div class="panel">
+      <h3>Negocio y contacto</h3>
+      <div class="field"><label>Nombre</label><input name="shop_name" value="{{ S.shop_name }}"></div>
+      <div class="field"><label>Eslogan</label><input name="tagline" value="{{ S.tagline }}"></div>
+      <div class="field"><label>Dirección</label><input name="address" value="{{ S.address }}"></div>
+      <div class="field"><label>Teléfono</label><input name="phone" value="{{ S.phone }}"></div>
+      <div class="field"><label>WhatsApp (sin prefijo)</label><input name="whatsapp" value="{{ S.whatsapp }}"></div>
+      <div class="field"><label>Email</label><input name="email" value="{{ S.email }}"></div>
+      <div class="field"><label>URL Google Maps</label><input name="maps_url" value="{{ S.maps_url }}"></div>
+      <div class="field"><label>Sobre nosotros</label><textarea name="about">{{ S.about }}</textarea></div>
+    </div>
+    <div class="panel">
+      <h3>Redes sociales</h3>
+      <div class="field"><label>Instagram</label><input name="instagram" value="{{ S.instagram }}"></div>
+      <div class="field"><label>Facebook</label><input name="facebook" value="{{ S.facebook }}"></div>
+      <div class="field"><label>TikTok</label><input name="tiktok" value="{{ S.tiktok }}"></div>
+      <div class="field"><label>YouTube</label><input name="youtube" value="{{ S.youtube }}"></div>
+      <h3 style="margin-top:20px">Financiación</h3>
+      <div class="row2">
+        <div class="field"><label>TIN por defecto (%)</label><input name="fin_tin" value="{{ S.fin_tin }}"></div>
+        <div class="field"><label>Plazo máx. (meses)</label><input name="fin_max_months" value="{{ S.fin_max_months }}"></div>
+      </div>
+      <h3 style="margin-top:20px">Cookies</h3>
+      <div class="field"><label><input type="checkbox" name="use_cookies" {{ 'checked' if S.use_cookies=='1' }} style="width:auto"> Mostrar aviso de cookies</label></div>
+    </div>
+  </div>
+
+  <div class="panel" style="margin-top:18px">
+    <h3>Horario de citas</h3>
+    <p class="muted">Una línea por día. Formato: <code>día=tramo,tramo</code> · día 0=lunes … 6=domingo. Genera huecos de 30 min.</p>
+    <textarea name="schedule" style="min-height:160px;font-family:monospace">{{ S.schedule }}</textarea>
+  </div>
+
+  <div class="panel" style="margin-top:18px">
+    <h3>SEO</h3>
+    <div class="field"><label>Título SEO</label><input name="seo_title" value="{{ S.seo_title }}"></div>
+    <div class="field"><label>Meta descripción</label><textarea name="seo_description">{{ S.seo_description }}</textarea></div>
+    <div class="field"><label>Palabras clave</label><textarea name="seo_keywords">{{ S.seo_keywords }}</textarea></div>
+  </div>
+
+  <div class="panel" style="margin-top:18px">
+    <h3>Apariencia</h3>
+    <p class="muted">Elige el tema de la web pública. Opcionalmente personaliza colores; deja sin marcar la casilla para usar el color del tema.</p>
+    <div class="field" style="max-width:320px">
+      <label>Tema</label>
+      <select name="theme">
+        <option value="dark" {{ 'selected' if S.theme!='light' }}>Oscuro</option>
+        <option value="light" {{ 'selected' if S.theme=='light' }}>Claro</option>
+      </select>
+    </div>
+    <div class="row2" style="grid-template-columns:repeat(4,1fr)">
+      <div class="field"><label><input type="checkbox" name="use_c_accent" {{ 'checked' if S.c_accent }}> Acento</label>
+        <input type="color" name="c_accent" value="{{ S.c_accent or '#22cdf2' }}" style="height:44px;padding:4px"></div>
+      <div class="field"><label><input type="checkbox" name="use_c_bg" {{ 'checked' if S.c_bg }}> Fondo</label>
+        <input type="color" name="c_bg" value="{{ S.c_bg or '#0a0d12' }}" style="height:44px;padding:4px"></div>
+      <div class="field"><label><input type="checkbox" name="use_c_text" {{ 'checked' if S.c_text }}> Texto</label>
+        <input type="color" name="c_text" value="{{ S.c_text or '#eef3f9' }}" style="height:44px;padding:4px"></div>
+      <div class="field"><label><input type="checkbox" name="use_c_title" {{ 'checked' if S.c_title }}> Títulos</label>
+        <input type="color" name="c_title" value="{{ S.c_title or '#eef3f9' }}" style="height:44px;padding:4px"></div>
+    </div>
+    <p class="muted" style="font-size:.8rem">El panel de administración se mantiene siempre en oscuro. Los cambios afectan a la web pública.</p>
+  </div>
+
+  <button class="btn primary" style="margin-top:18px">Guardar ajustes</button>
+</form>
+{% endblock %}

@@ -1,0 +1,20 @@
+{% extends "admin/base_admin.html" %}
+{% set active='dash' %}
+{% block content %}
+<h1>Panel de control</h1>
+<div class="stat-grid">
+  <div class="stat"><b>{{ stats.appts }}</b><span class="muted">Citas activas</span></div>
+  <div class="stat"><b>{{ stats.brands }}</b><span class="muted">Marcas</span></div>
+  <div class="stat"><b>{{ stats.models }}</b><span class="muted">Modelos</span></div>
+  <div class="stat"><b>{{ stats.used }}</b><span class="muted">Motos ocasión</span></div>
+</div>
+<div class="panel">
+  <h3>Próximas citas</h3>
+  <table><tr><th>Nº</th><th>Cliente</th><th>Fecha</th><th>Estado</th></tr>
+  {% for a in upcoming %}<tr><td>{{ a.code }}</td><td>{{ a.name }}</td>
+    <td>{{ a.slot.strftime('%d/%m %H:%M') if a.slot else '—' }}</td>
+    <td><span class="chip {{ a.status }}">{{ a.status }}</span></td></tr>{% endfor %}
+  {% if not upcoming %}<tr><td colspan="4" class="muted">Sin citas próximas.</td></tr>{% endif %}
+  </table>
+</div>
+{% endblock %}

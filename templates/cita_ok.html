@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+{% block title %}Cita confirmada · {{ S.shop_name }}{% endblock %}
+{% block content %}
+<section class="section"><div class="container" style="max-width:560px">
+  <div class="panel center">
+    <h2>✅ Cita registrada</h2>
+    <p class="muted">Guarda tu número de cita para consultarla o modificarla.</p>
+    <div class="price" style="font-size:3rem;letter-spacing:.18em;margin:10px 0">{{ appt.code }}</div>
+    {% if appt.slot %}<p>{{ appt.slot.strftime('%d/%m/%Y · %H:%M') }}</p>
+    {% else %}<p class="muted">Cita de consulta: te contactaremos para concretar.</p>{% endif %}
+    <div class="actions" style="justify-content:center">
+      <a class="btn ghost" href="/mi-cita">Gestionar mi cita</a>
+      <a class="btn primary" href="/">Volver al inicio</a>
+    </div>
+  </div>
+</div></section>
+{% endblock %}

@@ -1,0 +1,15 @@
+<!doctype html><html lang="es"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1"><title>Admin · {{ S.shop_name }}</title>
+<link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}"></head>
+<body><section class="section"><div class="container" style="max-width:380px">
+  <div class="center" style="margin-bottom:22px"><img src="{{ url_for('static', filename='img/logo.png') }}" style="height:64px"></div>
+  {% with msgs = get_flashed_messages(with_categories=true) %}
+    {% for cat,msg in msgs %}<div class="flash {{ cat }}">{{ msg }}</div>{% endfor %}
+  {% endwith %}
+  <form method="post" class="panel">
+    <h3>Acceso administración</h3>
+    <div class="field"><label>Usuario</label><input name="username" required></div>
+    <div class="field"><label>Contraseña</label><input name="password" type="password" required></div>
+    <button class="btn primary wide">Entrar</button>
+  </form>
+</div></section></body></html>

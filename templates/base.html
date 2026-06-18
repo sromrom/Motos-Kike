@@ -1,0 +1,115 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>{% block title %}{{ S.seo_title }}{% endblock %}</title>
+<meta name="description" content="{% block desc %}{{ S.seo_description }}{% endblock %}">
+<meta name="keywords" content="{{ S.seo_keywords }}">
+<meta name="robots" content="index,follow">
+<link rel="canonical" href="{{ request.base_url }}">
+<!-- Open Graph -->
+<meta property="og:type" content="business.business">
+<meta property="og:title" content="{{ self.title() }}">
+<meta property="og:description" content="{{ self.desc() }}">
+<meta property="og:image" content="{{ url_for('static', filename='img/logo.png', _external=True) }}">
+<meta property="og:locale" content="es_ES">
+<link rel="icon" href="{{ url_for('static', filename='img/logo-mark.png') }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+{% include "_theme.html" %}
+<!-- JSON-LD LocalBusiness para SEO local (Cádiz) -->
+<script type="application/ld+json">
+{
+ "@context":"https://schema.org",
+ "@type":"MotorcycleRepair",
+ "name":"{{ S.shop_name }}",
+ "image":"{{ url_for('static', filename='img/tienda-fachada.jpg', _external=True) }}",
+ "description":"{{ S.seo_description }}",
+ "address":{"@type":"PostalAddress","streetAddress":"Calle Caraza 21",
+   "addressLocality":"Chiclana de la Frontera","addressRegion":"Cádiz",
+   "postalCode":"11130","addressCountry":"ES"},
+ "telephone":"+34{{ S.phone }}",
+ "areaServed":"Cádiz",
+ "url":"{{ request.url_root }}"
+}
+</script>
+</head>
+<body>
+<header class="nav">
+  <div class="container nav-inner">
+    <a class="brand" href="/"><img src="{{ url_for('static', filename='img/logo.png') }}" alt="{{ S.shop_name }}"></a>
+    <nav class="menu" id="menu">
+      {% for s in nav %}
+        {% if s.slug=='inicio' %}<a href="/">Inicio</a>
+        {% elif s.slug=='cita' %}<a class="cta" href="/cita">{{ s.label }}</a>
+        {% elif s.slug=='financiacion' %}<a href="/financiacion">{{ s.label }}</a>
+        {% else %}<a href="/{{ s.slug }}">{{ s.label }}</a>{% endif %}
+      {% endfor %}
+      <a href="/mi-cita">Mi cita</a>
+    </nav>
+    <button class="burger" onclick="toggleMenu()">☰</button>
+  </div>
+</header>
+
+<main>
+  <div class="container" style="padding-top:14px">
+    {% with msgs = get_flashed_messages(with_categories=true) %}
+      {% for cat,msg in msgs %}<div class="flash {{ cat }}">{{ msg }}</div>{% endfor %}
+    {% endwith %}
+  </div>
+  {% block content %}{% endblock %}
+</main>
+
+<footer>
+  <div class="container">
+    <div class="foot-grid">
+      <div>
+        <img src="{{ url_for('static', filename='img/logo.png') }}" style="height:62px;margin-bottom:18px">
+        <p class="desc">{{ S.about }}</p>
+        <div class="social">
+          {% if S.instagram %}<a href="{{ S.instagram }}" aria-label="Instagram">IG</a>{% endif %}
+          {% if S.facebook %}<a href="{{ S.facebook }}" aria-label="Facebook">FB</a>{% endif %}
+          {% if S.tiktok %}<a href="{{ S.tiktok }}" aria-label="TikTok">TT</a>{% endif %}
+          {% if S.youtube %}<a href="{{ S.youtube }}" aria-label="YouTube">YT</a>{% endif %}
+        </div>
+      </div>
+      <div>
+        <h4>Contacto</h4>
+        <a href="tel:{{ S.phone }}">📞 {{ S.phone }}</a>
+        {% if S.email %}<a href="mailto:{{ S.email }}">✉ {{ S.email }}</a>{% endif %}
+        <a href="{{ S.maps_url }}" target="_blank">📍 {{ S.address }}</a>
+      </div>
+      <div>
+        <h4>Enlaces</h4>
+        <a href="/ocasion">Motos de ocasión</a>
+        <a href="/cita">Pedir cita</a>
+        <a href="/financiacion">Financiación</a>
+        <a href="/privacidad">Privacidad</a>
+        <a href="/cookies">Cookies</a>
+      </div>
+    </div>
+    <div class="copy">
+      <span>© {{ year }} {{ S.shop_name }} · Calle Caraza 21, Chiclana de la Frontera (Cádiz)</span>
+      <span><a href="/admin">Acceso administración</a></span>
+    </div>
+  </div>
+</footer>
+
+{% if S.whatsapp %}<a class="wa" href="https://wa.me/34{{ S.whatsapp }}" target="_blank" aria-label="WhatsApp">🟢</a>{% endif %}
+
+{% if S.use_cookies=='1' %}
+<div class="cookie" id="cookieBanner">
+  <b>🍪 Cookies</b>
+  <p class="muted" style="margin:8px 0 0">Usamos cookies propias para el funcionamiento del sitio y, si las aceptas, de medición. Consulta nuestra <a href="/cookies">política de cookies</a>.</p>
+  <div class="row">
+    <button class="btn primary sm" onclick="acceptCookies('all')">Aceptar</button>
+    <button class="btn ghost sm" onclick="acceptCookies('essential')">Solo esenciales</button>
+  </div>
+</div>
+{% endif %}
+
+<script>window.USE_COOKIES = {{ '1' if S.use_cookies=='1' else '0' }};</script>
+<script src="{{ url_for('static', filename='js/main.js') }}"></script>
+{% block scripts %}{% endblock %}
+</body>
+</html>

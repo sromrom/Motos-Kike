@@ -1,0 +1,30 @@
+<!doctype html><html lang="es"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>{% block title %}Admin · {{ S.shop_name }}{% endblock %}</title>
+<meta name="robots" content="noindex,nofollow">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head><body>
+<div class="admin-wrap">
+  <aside class="sidebar">
+    <img class="logo" src="{{ url_for('static', filename='img/logo.png') }}">
+    <a href="{{ url_for('admin_dashboard') }}" class="{{ 'active' if active=='dash' }}">📊 Panel</a>
+    <a href="{{ url_for('admin_appointments') }}" class="{{ 'active' if active=='appts' }}">📅 Citas</a>
+    <a href="{{ url_for('admin_agenda') }}" class="{{ 'active' if active=='agenda' }}">🗓️ Agenda</a>
+    <a href="{{ url_for('admin_brands') }}" class="{{ 'active' if active=='brands' }}">🏭 Marcas / proveedores</a>
+    <a href="{{ url_for('admin_models') }}" class="{{ 'active' if active=='models' }}">🏍️ Modelos</a>
+    <a href="{{ url_for('admin_used') }}" class="{{ 'active' if active=='used' }}">💰 Ocasión</a>
+    <a href="{{ url_for('admin_sections') }}" class="{{ 'active' if active=='sections' }}">👁️ Apartados</a>
+    <a href="{{ url_for('admin_settings') }}" class="{{ 'active' if active=='settings' }}">⚙️ Ajustes</a>
+    <a href="/" target="_blank">🌐 Ver web</a>
+    <a href="{{ url_for('admin_logout') }}">🚪 Salir</a>
+  </aside>
+  <main class="admin-main">
+    {% with msgs = get_flashed_messages(with_categories=true) %}
+      {% for cat,msg in msgs %}<div class="flash {{ cat }}">{{ msg }}</div>{% endfor %}
+    {% endwith %}
+    {% block content %}{% endblock %}
+  </main>
+</div>
+<script src="{{ url_for('static', filename='js/main.js') }}"></script>
+{% block scripts %}{% endblock %}
+</body></html>

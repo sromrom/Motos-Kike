@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+{% block title %}Política de cookies · {{ S.shop_name }}{% endblock %}
+{% block content %}
+<section class="section"><div class="container" style="max-width:760px">
+  <h2>Política de cookies</h2>
+  <p class="muted">Usamos cookies técnicas necesarias para el funcionamiento del sitio (sesión, preferencia de cookies). Si las aceptas, podremos usar cookies de medición para mejorar el servicio. Puedes cambiar tu elección borrando los datos del navegador.</p>
+  <h3>Tipos</h3>
+  <p class="muted"><b>Esenciales:</b> imprescindibles, no requieren consentimiento.<br>
+  <b>Medición/analítica:</b> opcionales, solo si las aceptas.</p>
+  <p class="muted">Responsable: {{ S.shop_name }} · {{ S.address }} · {{ S.phone }}</p>
+</div></section>
+{% endblock %}

@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+{% block title %}Modelos {{ brand.name }} · {{ S.shop_name }}{% endblock %}
+{% block desc %}Modelos {{ brand.name }} disponibles en {{ S.shop_name }}, Chiclana de la Frontera (Cádiz).{% endblock %}
+{% block content %}
+<section class="section">
+  <div class="container">
+    <div class="reveal" style="margin-bottom:14px"><a href="/marcas" class="muted" style="font-family:var(--mono);font-size:.8rem">‹ Todas las marcas</a></div>
+    <div class="section-head reveal" style="display:flex;justify-content:space-between;align-items:center;max-width:none;gap:20px">
+      <div style="display:flex;align-items:center;gap:18px">
+        {% if brand.logo_url %}<img src="{{ brand.logo_url }}" alt="{{ brand.name }}" style="max-height:64px">{% endif %}
+        <div><span class="eyebrow">Modelos</span><h2 style="margin:0">{{ brand.name }}</h2></div>
+      </div>
+      {% if brand.website %}<a class="btn ghost" href="{{ brand.website }}" target="_blank" rel="noopener">Web oficial ▸</a>{% endif %}
+    </div>
+
+    <div class="grid g3 reveal" style="margin-top:26px">
+      {% for m in models %}
+      <div class="card">
+        {% if m.image_url %}<div class="thumb-wrap"><img class="thumb" src="{{ m.image_url }}" alt="{{ m.name }}"></div>{% endif %}
+        <div class="body">
+          <div>{% if m.cc %}<span class="tag">{{ m.cc }}</span>{% endif %}</div>
+          <h3>{{ m.name }}</h3>
+          {% if m.description %}<p class="muted">{{ m.description }}</p>{% endif %}
+          {% if m.price %}<div class="price">{{ m.price }}</div>{% endif %}
+          <div class="actions" style="margin-top:14px;gap:8px">
+            {% if m.official_url %}<a class="btn primary sm" href="{{ m.official_url }}" target="_blank" rel="noopener noreferrer">Ficha oficial ▸</a>{% endif %}
+            <a class="btn ghost sm" href="https://wa.me/34{{ S.whatsapp }}?text=Hola, me interesa la {{ brand.name }} {{ m.name }}" target="_blank" rel="noopener">Contactar / pedir cita</a>
+          </div>
+        </div>
+      </div>
+      {% endfor %}
+      {% if not models %}<p class="muted">Todavía no hay modelos de {{ brand.name }} publicados. Contáctanos y te informamos.</p>{% endif %}
+    </div>
+  </div>
+</section>
+{% endblock %}

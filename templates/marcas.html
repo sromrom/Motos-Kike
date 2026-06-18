@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+{% block title %}Marcas de motos que vendemos · {{ S.shop_name }}{% endblock %}
+{% block content %}
+<section class="section">
+  <div class="container">
+    <div class="section-head center reveal"><span class="eyebrow">Multimarca</span><h2>Marcas que vendemos</h2>
+      <p class="lead" style="margin-left:auto;margin-right:auto">Pincha en una marca para ver los modelos disponibles.</p></div>
+    <div class="brands-row reveal" style="margin-top:34px">
+      {% for b in brands %}
+      <a class="brand-card" href="/marcas/{{ b.id }}" style="flex-direction:column;gap:10px">
+        {% if b.logo_url %}<img src="{{ b.logo_url }}" alt="{{ b.name }}">{% else %}<span>{{ b.name }}</span>{% endif %}
+        <span class="tag" style="margin:0">{{ counts[b.id] }} modelo{{ '' if counts[b.id]==1 else 's' }}</span>
+      </a>
+      {% endfor %}
+      {% if not brands %}<p class="muted">Próximamente.</p>{% endif %}
+    </div>
+  </div>
+</section>
+{% endblock %}

@@ -1,0 +1,152 @@
+{% extends "base.html" %}
+{% block content %}
+
+<section class="hero">
+  <div class="container">
+    <div class="tag-strip reveal">
+      <span class="tag">Taller & Venta</span>
+      <span class="loc">▸ Chiclana de la Frontera · Cádiz</span>
+    </div>
+    <h1 class="reveal">Tu moto,<br><span class="fill">a punto.</span></h1>
+    <p class="lead reveal">{{ S.tagline }}</p>
+    <div class="actions reveal">
+      <a class="btn primary" href="/cita">Reservar cita ▸</a>
+      <a class="btn ghost" href="/ocasion">Ver motos de ocasión</a>
+    </div>
+    <div class="readout reveal">
+      <div class="cell"><div class="num">20+</div><div class="lbl">Años en activo</div></div>
+      <div class="cell"><div class="num">MULTI</div><div class="lbl">Todas las marcas</div></div>
+      <div class="cell"><div class="num">30'</div><div class="lbl">Por cita de taller</div></div>
+      <div class="cell"><div class="num">★</div><div class="lbl">Palmarés en velocidad</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- SERVICIOS -->
+<section class="section" id="servicios">
+  <div class="container">
+    <div class="section-head reveal">
+      <span class="eyebrow">Qué hacemos</span>
+      <h2>Servicios del taller</h2>
+      <p class="lead">Mecánica, electrónica y puesta a punto para cualquier marca y cilindrada. Lo que tu moto necesite, en un solo sitio.</p>
+    </div>
+    <div class="svc reveal">
+      <div class="item">
+        <svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M3 12a9 9 0 1 0 18 0 9 9 0 0 0-18 0Z"/><path d="M12 7v5l3 3"/></svg>
+        <h3>Mantenimiento</h3><p>Revisiones periódicas, cambio de aceite y filtros, ajustes y puesta a punto programada.</p>
+      </div>
+      <div class="item">
+        <svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="m14 7 3 3M5 19l8.5-8.5a2.1 2.1 0 0 0 0-3l-1-1a2.1 2.1 0 0 0-3 0L1 14v4h4"/></svg>
+        <h3>Reparación</h3><p>Mecánica y electrónica, diagnosis, motor, transmisión y sistemas de frenado.</p>
+      </div>
+      <div class="item">
+        <svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="3.4"/></svg>
+        <h3>Neumáticos</h3><p>Montaje, equilibrado y sustitución de neumáticos de todas las medidas.</p>
+      </div>
+      <div class="item">
+        <svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M9 12.5 11 14.5 15.5 10"/><path d="M12 3l8 3v6c0 5-3.5 7.5-8 9-4.5-1.5-8-4-8-9V6l8-3Z"/></svg>
+        <h3>Pre-ITV</h3><p>Revisamos tu moto para que pase la ITV a la primera, sin sorpresas.</p>
+      </div>
+      <div class="item">
+        <svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M3 17h3l2-4h8l3 4h1"/><circle cx="6.5" cy="17.5" r="2.5"/><circle cx="18" cy="17.5" r="2.5"/><path d="M8 13l1-5h4l2 5"/></svg>
+        <h3>Venta de motos</h3><p>Nuevas y de ocasión revisadas, con financiación a tu medida.</p>
+      </div>
+      <div class="item">
+        <svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4Z"/><path d="M3 6h18M16 10a4 4 0 0 1-8 0"/></svg>
+        <h3>Accesorios y recambios</h3><p>Aceites, baterías, cascos y recambio multimarca de primeras firmas.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+{% if 'marcas' in section_visible and brands %}
+<section class="section alt">
+  <div class="container">
+    <div class="section-head center reveal"><span class="eyebrow">Trabajamos con</span><h2>Marcas que vendemos</h2></div>
+    <div class="brands-row reveal">
+      {% for b in brands %}
+      <a class="brand-card" href="/marcas/{{ b.id }}">
+        {% if b.logo_url %}<img src="{{ b.logo_url }}" alt="{{ b.name }}">{% else %}<span>{{ b.name }}</span>{% endif %}
+      </a>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+{% endif %}
+
+{% if 'ocasion' in section_visible and used %}
+<section class="section alt">
+  <div class="container">
+    <div class="section-head reveal" style="display:flex;justify-content:space-between;align-items:flex-end;max-width:none">
+      <div><span class="eyebrow">Segunda mano</span><h2>Motos de ocasión</h2></div>
+      <a class="btn ghost" href="/ocasion">Ver todas</a>
+    </div>
+    <div class="grid g3 reveal">
+      {% for u in used %}
+      <a class="card" href="/ocasion/{{ u.id }}">
+        {% if u.image_list() %}<div class="thumb-wrap"><img class="thumb" src="{{ u.image_list()[0] }}" alt="{{ u.title }}"></div>{% endif %}
+        <div class="body">
+          {% if u.sold %}<span class="tag sold">Vendida</span>{% endif %}
+          <h3>{{ u.title }}</h3>
+          <div class="specs">{% if u.year %}<span>{{ u.year }}</span>{% endif %}{% if u.km %}<span>{{ u.km }} km</span>{% endif %}{% if u.cc %}<span>{{ u.cc }}</span>{% endif %}</div>
+          {% if u.price %}<div class="price">{{ u.price }}</div>{% endif %}
+        </div>
+      </a>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+{% endif %}
+
+<!-- COMO RESERVAR (secuencia real) -->
+{% if 'cita' in section_visible %}
+<section class="section">
+  <div class="container">
+    <div class="section-head reveal"><span class="eyebrow">Cómo funciona</span><h2>Reserva en 3 pasos</h2></div>
+    <div class="steps reveal">
+      <div class="step"><h3>Elige el servicio</h3><p>Mantenimiento con hora fija cada 30 min, o cita de consulta para el resto de asuntos.</p></div>
+      <div class="step"><h3>Día y hora</h3><p>Selecciona uno de los huecos libres. Recibes el número de cita al instante.</p></div>
+      <div class="step"><h3>Confirmación</h3><p>Te avisamos por email/WhatsApp. Puedes modificar o cancelar cuando quieras.</p></div>
+    </div>
+    <div class="actions reveal" style="margin-top:30px"><a class="btn primary" href="/cita">Pedir cita ahora ▸</a></div>
+  </div>
+</section>
+{% endif %}
+
+<!-- QUIENES SOMOS -->
+<section class="section alt">
+  <div class="container grid g2" style="align-items:center;gap:48px">
+    <div class="reveal">
+      <span class="eyebrow">Quiénes somos</span>
+      <h2>Prestigio sobre dos ruedas</h2>
+      <p class="lead">{{ S.about }}</p>
+      <div class="trust" style="margin-top:34px;text-align:left;grid-template-columns:1fr 1fr">
+        <div><div class="b"><em>20+</em></div><div class="l">Años de trayectoria</div></div>
+        <div><div class="b"><em>★</em></div><div class="l">Equipo de competición</div></div>
+      </div>
+      <div class="actions" style="margin-top:30px"><a class="btn ghost" href="/contacto">Contacta con nosotros</a></div>
+    </div>
+    <div class="gallery reveal">
+      <a class="wide" href="#"><img src="{{ url_for('static', filename='img/taller.jpg') }}" alt="Taller"></a>
+      <a href="#"><img src="{{ url_for('static', filename='img/trofeos.jpg') }}" alt="Trofeos de competición"></a>
+      <a href="#"><img src="{{ url_for('static', filename='img/cascos.jpg') }}" alt="Cascos"></a>
+      <a href="#"><img src="{{ url_for('static', filename='img/escaparate.jpg') }}" alt="Escaparate"></a>
+      <a href="#"><img src="{{ url_for('static', filename='img/aceites.jpg') }}" alt="Recambios y aceites"></a>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="section cta-band center">
+  <div class="container">
+    <span class="eyebrow" style="justify-content:center">Te esperamos</span>
+    <h2>¿Listo para poner tu moto a punto?</h2>
+    <p class="lead" style="margin:0 auto 28px">Calle Caraza 21, Chiclana de la Frontera. Reserva online o llámanos.</p>
+    <div class="actions" style="justify-content:center">
+      <a class="btn primary" href="/cita">Reservar cita</a>
+      <a class="btn ghost" href="tel:{{ S.phone }}">Llamar {{ S.phone }}</a>
+    </div>
+  </div>
+</section>
+
+{% endblock %}

@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+{% block title %}Mi cita {{ appt.code }} · {{ S.shop_name }}{% endblock %}
+{% block content %}
+<section class="section"><div class="container" style="max-width:560px">
+  <span class="eyebrow">Cita {{ appt.code }}</span>
+  <h2>Hola, {{ appt.name }}</h2>
+  <div class="panel">
+    <p><b>Estado:</b> <span class="chip {{ appt.status }}">{{ appt.status }}</span></p>
+    <p><b>Tipo:</b> {{ appt.kind }}</p>
+    {% if appt.slot %}<p><b>Fecha:</b> {{ appt.slot.strftime('%d/%m/%Y · %H:%M') }}</p>
+    {% else %}<p class="muted">Cita de consulta (sin hora fija).</p>{% endif %}
+    {% if appt.subject %}<p><b>Asunto:</b> {{ appt.subject }}</p>{% endif %}
+  </div>
+
+  {% if appt.kind=='mantenimiento' and appt.status!='cancelada' %}
+  <div class="panel" style="margin-top:16px">
+    <h3>Cambiar fecha/hora</h3>
+    <form method="post">
+      <input type="hidden" name="action" value="reschedule">
+      <div class="row2">
+        <div class="field"><label>Fecha</label><input id="date" name="date" type="date" onchange="loadSlots()"></div>
+        <div class="field"><label>Hora</label><select id="time" name="time"><option value="">Elige fecha</option></select></div>
+      </div>
+      <button class="btn primary wide">Guardar cambios</button>
+    </form>
+  </div>
+  {% endif %}
+
+  {% if appt.status!='cancelada' %}
+  <form method="post" style="margin-top:16px" onsubmit="return confirm('¿Cancelar la cita?')">
+    <input type="hidden" name="action" value="cancel">
+    <button class="btn danger wide">Cancelar cita</button>
+  </form>
+  {% endif %}
+</div></section>
+{% endblock %}

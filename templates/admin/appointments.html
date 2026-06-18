@@ -1,0 +1,46 @@
+{% extends "admin/base_admin.html" %}
+{% set active='appts' %}
+{% block content %}
+<h1>Citas</h1>
+<p class="muted">Las citas caducadas se borran automáticamente. Datos descifrados solo visibles aquí.</p>
+<div class="panel"><table>
+<tr><th>Nº</th><th>Tipo</th><th>Cliente</th><th>Contacto</th><th>Fecha</th><th>Asunto</th><th>Estado</th><th>Acciones</th></tr>
+{% for a in appts %}
+<tr>
+  <td><b>{{ a.code }}</b></td>
+  <td>{{ a.kind }}</td>
+  <td>{{ a.name or '—' }}{% if not a.name %}<br><span class="muted" style="font-size:.75rem">datos eliminados (RGPD)</span>{% endif %}</td>
+  <td>{{ a.phone }}<br><span class="muted">{{ a.email }}</span></td>
+  <td>{{ a.slot.strftime('%d/%m/%Y %H:%M') if a.slot else '—' }}</td>
+  <td>{{ a.subject }}{% if a.notes %}<br><span class="muted">{{ a.notes }}</span>{% endif %}</td>
+  <td><span class="chip {{ a.status }}">{{ a.status }}</span></td>
+  <td>
+    <form method="post" action="{{ url_for('admin_appt_update', aid=a.id) }}" style="display:flex;gap:4px;flex-wrap:wrap">
+      <input type="hidden" name="action" value="status">
+      <select name="status" style="padding:6px"><option {{'selected' if a.status=='pendiente'}}>pendiente</option>
+        <option {{'selected' if a.status=='confirmada'}}>confirmada</option>
+        <option {{'selected' if a.status=='completada'}}>completada</option>
+        <option {{'selected' if a.status=='cancelada'}}>cancelada</option></select>
+      <button class="btn sm primary">OK</button>
+    </form>
+    {% if a.status != 'completada' and a.kind == 'mantenimiento' %}
+    <form method="post" action="{{ url_for('admin_appt_update', aid=a.id) }}" style="margin-top:6px">
+      <input type="hidden" name="action" value="complete">
+      <button class="btn sm ghost" title="Marca la cita como completada y avisa al cliente de que su moto está lista">✓ Moto lista</button>
+    </form>
+    {% endif %}
+    <form method="post" action="{{ url_for('admin_appt_update', aid=a.id) }}" style="margin-top:6px;display:flex;gap:4px">
+      <input type="hidden" name="action" value="slot">
+      <input type="datetime-local" name="slot" style="padding:6px">
+      <button class="btn sm ghost">Reprogramar</button>
+    </form>
+    <form method="post" action="{{ url_for('admin_appt_update', aid=a.id) }}" onsubmit="return confirm('¿Eliminar cita?')" style="margin-top:6px">
+      <input type="hidden" name="action" value="delete">
+      <button class="btn sm danger">Eliminar</button>
+    </form>
+  </td>
+</tr>
+{% endfor %}
+{% if not appts %}<tr><td colspan="8" class="muted">No hay citas.</td></tr>{% endif %}
+</table></div>
+{% endblock %}

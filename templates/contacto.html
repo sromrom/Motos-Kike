@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+{% block title %}Contacto · {{ S.shop_name }} · Chiclana (Cádiz){% endblock %}
+{% block content %}
+<section class="section"><div class="container grid g2">
+  <div>
+    <span class="eyebrow">Hablemos</span><h2>Contacto</h2>
+    <p class="muted">{{ S.about }}</p>
+    <div class="panel" style="margin-top:16px">
+      <p>📍 <a href="{{ S.maps_url }}" target="_blank">{{ S.address }}</a></p>
+      <p>📞 <a href="tel:{{ S.phone }}">{{ S.phone }}</a></p>
+      {% if S.email %}<p>✉ <a href="mailto:{{ S.email }}">{{ S.email }}</a></p>{% endif %}
+      <a class="btn primary" href="https://wa.me/34{{ S.whatsapp }}" target="_blank" style="margin-top:8px">WhatsApp</a>
+    </div>
+  </div>
+  <div>
+    <form method="post" class="panel">
+      <h3>Envíanos un mensaje</h3>
+      <div class="field"><label>Nombre</label><input name="name" required></div>
+      <div class="field"><label>Email</label><input name="email" type="email" required></div>
+      <div class="field"><label>Mensaje</label><textarea name="message" required></textarea></div>
+      <button class="btn primary wide">Enviar</button>
+    </form>
+  </div>
+</div></section>
+{% endblock %}

@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+{% block title %}Gestiona tu cita · {{ S.shop_name }}{% endblock %}
+{% block content %}
+<section class="section"><div class="container" style="max-width:480px">
+  <span class="eyebrow">Tu cita</span><h2>Consulta o modifica tu cita</h2>
+  <form method="post" class="panel" style="margin-top:18px">
+    <div class="field"><label>Número de cita</label><input name="code" required placeholder="Ej: 482915"></div>
+    <div class="field"><label>Teléfono o email que diste</label><input name="contact" required></div>
+    <button class="btn primary wide">Acceder</button>
+  </form>
+</div></section>
+{% endblock %}
